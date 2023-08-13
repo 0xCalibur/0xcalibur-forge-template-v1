@@ -5,6 +5,17 @@ import "forge-std/Vm.sol";
 import "solady/utils/LibString.sol";
 
 library ChainId {
+    uint256 internal constant All = 0;
+    uint256 internal constant Mainnet = 1;
+    uint256 internal constant BSC = 56;
+    uint256 internal constant Polygon = 137;
+    uint256 internal constant Fantom = 250;
+    uint256 internal constant Optimism = 10;
+    uint256 internal constant Arbitrum = 42161;
+    uint256 internal constant Avalanche = 43114;
+    uint256 internal constant Moonriver = 1285;
+    uint256 internal constant Kava = 2222;
+    uint256 internal constant Linea = 59144;
     uint256 internal constant Base = 8453;
 }
 
@@ -42,11 +53,35 @@ contract Toolkit {
 
     string[] private addressKeys;
 
-    uint[] public chains = [ChainId.Base];
+    uint[] public chains = [
+        ChainId.All,
+        ChainId.Mainnet,
+        ChainId.BSC,
+        ChainId.Avalanche,
+        ChainId.Polygon,
+        ChainId.Arbitrum,
+        ChainId.Optimism,
+        ChainId.Fantom,
+        ChainId.Moonriver,
+        ChainId.Kava,
+        ChainId.Linea,
+        ChainId.Base
+    ];
 
     bool public testing;
 
     constructor() {
+        chainIdToName[ChainId.All] = "all";
+        chainIdToName[ChainId.Mainnet] = "Mainnet";
+        chainIdToName[ChainId.BSC] = "BSC";
+        chainIdToName[ChainId.Polygon] = "Polygon";
+        chainIdToName[ChainId.Fantom] = "Fantom";
+        chainIdToName[ChainId.Optimism] = "Optimism";
+        chainIdToName[ChainId.Arbitrum] = "Arbitrum";
+        chainIdToName[ChainId.Avalanche] = "Avalanche";
+        chainIdToName[ChainId.Moonriver] = "Moonriver";
+        chainIdToName[ChainId.Kava] = "Kava";
+        chainIdToName[ChainId.Linea] = "Linea";
         chainIdToName[ChainId.Base] = "Base";
 
         for (uint i = 0; i < chains.length; i++) {

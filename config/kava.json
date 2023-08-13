@@ -1,0 +1,7 @@
+{
+    "addresses": [
+        { "key": "weth", "value": "0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b" },
+        { "key": "wKava", "value": "0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b" },
+        { "key": "usdt", "value": "0x919c1c267bc06a7039e03fcc2ef738525769109c" }
+    ]
+}
