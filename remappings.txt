@@ -1,0 +1,10 @@
+/=src/
+openzeppelin/=lib/openzeppelin/contracts/
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+solmate/=lib/solmate/src/
+libraries/=src/libraries/
+interfaces/=src/interfaces/
+solady/=lib/solady/src/
+forge-deploy/=lib/forge-deploy/contracts/
+generated/=generated/

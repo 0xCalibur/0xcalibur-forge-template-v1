@@ -1,0 +1,61 @@
+name: Foundry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  FOUNDRY_PROFILE: ci
+  MAINNET_RPC_URL: ${{ secrets.ALCHEMY_MAINNET_URL }}
+  OPTIMISM_RPC_URL: ${{ secrets.OPTIMISM_ALCHEMY_URL }}
+  BSC_RPC_URL: https://bsc-dataseed4.defibit.io
+  FANTOM_RPC_URL: https://rpc2.fantom.network
+  ARBITRUM_RPC_URL: ${{ secrets.ALCHEMY_ARBITRUM_URL }}
+  POLYGON_RPC_URL: ${{ secrets.ALCHEMY_POLYGON_URL }}
+  AVALANCHE_RPC_URL: https://api.avax.network/ext/bc/C/rpc
+  MOONRIVER_RPC_URL: https://moonriver.public.blastapi.io
+  KAVA_RPC_URL: ${{ secrets.KAVA_POKT_RPC_URL }}
+  LINEA_RPC_URL: https://rpc.linea.build
+  BASE_RPC_URL: https://base.meowrpc.com
+jobs:
+  check:
+    strategy:
+      fail-fast: true
+
+    name: Foundry project
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: yarn --ignore-scripts
+      - run: node init.js lib/
+
+      - name: Run Forge build
+        run: |
+          (cd lib/forge-deploy && cargo build --release && cp target/release/forge-deploy ../../forge-deploy)
+          ./forge-deploy gen-deployer -t templates/DeployerFunctions.g.sol.hbs
+          forge --version
+          forge build --sizes
+        id: build
+
+      - name: Run Forge tests
+        run: |
+          forge test --gas-report -vv
+        id: test
