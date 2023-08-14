@@ -11,7 +11,17 @@ const {
 } = require('glob');
 
 const foundry = getForgeConfig();
-const accounts = [process.env.PRIVATE_KEY];
+let accounts;
+
+if (process.env.PRIVATE_KEY) {
+  accounts = [process.env.PRIVATE_KEY];
+} else {
+  accounts = {
+    mnemonic:
+      process.env.MNEMONIC ||
+      "test test test test test test test test test test test junk",
+  };
+}
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
