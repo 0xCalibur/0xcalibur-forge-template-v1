@@ -17,6 +17,7 @@ remappings = [
     'solmate/=lib/solmate/src/',
     'libraries/=src/libraries',
     'interfaces/=src/interfaces',
+    'mixins/=src/mixins',
     'solady/=lib/solady/src/',
     'forge-deploy/=lib/forge-deploy/contracts',
     'generated/=generated'
