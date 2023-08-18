@@ -60,6 +60,9 @@ yarn gen <template_name>
 Templates are located in `templates/` folder. They are using handlebars templating system.
 They can be added or updated using the `tasks/core/generate.js` task file.
 
+> Note that `DeployerFunctions.g.sol.hbs` is not meant to be used for CLI code generating but instead used by `forge-deploy` to generate
+> the deployer contract.
+
 # CI
 Update `.github/workflows/test.yml` rpc urls to run fork tests on desired chains
 
