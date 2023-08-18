@@ -53,7 +53,10 @@ foundryup
 ```
 
 ## Using code generators
-```yarn gen <template_name>```
+```
+yarn gen <template_name>
+```
+
 Templates are located in `templates/` folder. They are using handlebars templating system.
 They can be added or updated using the `tasks/core/generate.js` task file.
 
