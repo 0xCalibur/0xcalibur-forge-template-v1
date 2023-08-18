@@ -43,6 +43,9 @@ yarn deploy --network <network-name> --script <my-script-name>
 use `package.json` `libs` field to specify the git dependency lib with the commit hash.
 run `yarn` again to update them.
 
+## Updating remappings
+edit `foundry.toml` remappings section and then run `yarn remappings`
+
 ## Updating Foundry
 This will update to the latest Foundry release
 ```
