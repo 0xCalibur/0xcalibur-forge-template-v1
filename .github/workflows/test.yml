@@ -42,7 +42,8 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt, clippy
-
+      - run: rustc --version
+      
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
