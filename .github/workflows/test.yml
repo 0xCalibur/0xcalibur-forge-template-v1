@@ -37,8 +37,12 @@ jobs:
         with:
           version: nightly
 
-      - name: Install toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
 
       - name: Use Node.js
         uses: actions/setup-node@v3
