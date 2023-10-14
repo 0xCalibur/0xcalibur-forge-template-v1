@@ -40,8 +40,7 @@ jobs:
       - name: Install latest nightly
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
-          override: true
+          toolchain: stable
           components: rustfmt, clippy
 
       - name: Use Node.js
