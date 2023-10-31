@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import "forge-std/Vm.sol";
-import "solady/utils/LibString.sol";
+import {Vm} from "forge-std/Vm.sol";
+import {LibString} from "solady/utils/LibString.sol";
+import {Deployer, DeployerDeployment, GlobalDeployer} from "forge-deploy/Deployer.sol";
+import {DefaultDeployerFunction} from "forge-deploy/DefaultDeployerFunction.sol";
 
 library ChainId {
     uint256 internal constant All = 0;
@@ -69,8 +71,15 @@ contract Toolkit {
     ];
 
     bool public testing;
+    GlobalDeployer public deployer;
 
     constructor() {
+        deployer = new GlobalDeployer();
+        vm.allowCheatcodes(address(deployer));
+        vm.makePersistent(address(deployer));
+        vm.label(address(deployer), "forge-deploy:deployer");
+        deployer.init();
+
         chainIdToName[ChainId.All] = "all";
         chainIdToName[ChainId.Mainnet] = "Mainnet";
         chainIdToName[ChainId.BSC] = "BSC";
@@ -103,7 +112,10 @@ contract Toolkit {
     }
 
     function setAddress(uint256 chainid, string memory key, address value) public {
-        key = string.concat(chainIdToName[chainid].lower(), ".", key);
+        if (chainid != ChainId.All) {
+            key = string.concat(chainIdToName[chainid].lower(), ".", key);
+        }
+
         require(addressMap[key] == address(0), string.concat("address already exists: ", key));
         addressMap[key] = value;
         addressKeys.push(key);
@@ -117,6 +129,9 @@ contract Toolkit {
     }
 
     function getAddress(string calldata name, uint256 chainid) public view returns (address) {
+        if (chainid == ChainId.All) {
+            return getAddress(name);
+        }
         string memory key = string.concat(chainIdToName[chainid].lower(), ".", name);
         return getAddress(key);
     }
@@ -140,6 +155,10 @@ contract Toolkit {
 
     function prefixWithChainName(uint256 chainid, string memory name) public view returns (string memory) {
         return string.concat(getChainName(chainid), "_", name);
+    }
+
+    function getChainsLength() public view returns (uint256) {
+        return chains.length;
     }
 }
 

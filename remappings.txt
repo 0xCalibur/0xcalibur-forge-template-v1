@@ -1,5 +1,5 @@
 /=src/
-openzeppelin/=lib/openzeppelin/contracts/
+openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 solmate/=lib/solmate/src/
@@ -8,4 +8,3 @@ interfaces/=src/interfaces/
 mixins/=src/mixins/
 solady/=lib/solady/src/
 forge-deploy/=lib/forge-deploy/contracts/
-generated/=generated/

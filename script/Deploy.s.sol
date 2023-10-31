@@ -3,10 +3,10 @@ pragma solidity >=0.8.0;
 
 import "utils/BaseScript.sol";
 
-contract MyDeployScript is BaseScript {
-    using DeployerFunctions for Deployer;
-
+contract DeployScript is BaseScript {
     function deploy() public {
-        // deployer.deploy_TestContract("TestContract", "foobar", tx.origin);
+        vm.startBroadcast();
+        deploy("MyContract", "MyContract.sol:MyContract", abi.encode(tx.origin));
+        vm.stopBroadcast();
     }
 }
