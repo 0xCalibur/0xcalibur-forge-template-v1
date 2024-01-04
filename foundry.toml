@@ -31,6 +31,10 @@ fs_permissions = [
     { access = "read", path = "./config" },
 ]
 
+[profile.shanghai]
+evm_version = "shanghai"
+match-path = "test/**/*.t.shanghai.sol"
+
 [profile.ci]
 verbosity = 4
 
