@@ -116,6 +116,13 @@ yarn task forge-deploy-multichain --script Create3Factory --broadcast --verify a
 yarn task forge-deploy-multichain --script Create3Factory --broadcast --no-confirm --verify mainnet polygon avalanche
 ```
 
+### Testing and deploying using shanghai EVM
+Simply rename a test from `.t.sol` to `.t.shanghai.sol`.
+Use `test:shanghai` to run shanghai tests
+
+For scripts rename from `.s.sol` to `.s.shanghai.sol` and deploy using `yarn deploy --script MyScript` without the extension,
+as usual.
+
 ### Deploy Create3Factory
 - Use create3Factories task to deploy a new version on all chain.
 - If you want to add an existing one to another chain:
