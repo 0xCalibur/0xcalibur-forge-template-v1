@@ -17,37 +17,48 @@ const destination = `${__dirname}/lib`;
     const keys = Object.keys(libs);
     for (let i = 0; i < keys.length; i++) {
         const target = keys[i];
-        const { url, commit } = libs[target];
+        const { url, commit, type } = libs[target];
         const dest = `${destination}/${target}`;
 
         let installed = false;
 
-        // check commit hash
-        try {
-            let response = await shell.exec(`(cd ${dest} && git rev-parse HEAD)`, { silent: true, fatal: false });
-            if (response.stdout.toString().trim() == commit) {
-                // check if there are changes
-                response = await shell.exec(`(cd ${dest} && git status --porcelain)`, { silent: true, fatal: false });
-                installed = response.stdout.length == 0;
+        // default type is git
+        if (type === undefined) {
+            // check commit hash
+            try {
+                let response = await shell.exec(`(cd ${dest} && git rev-parse HEAD)`, { silent: true, fatal: false });
+                if (response.stdout.toString().trim() == commit) {
+                    // check if there are changes
+                    response = await shell.exec(`(cd ${dest} && git status --porcelain)`, { silent: true, fatal: false });
+                    installed = response.stdout.length == 0;
+                }
+            } catch { }
+
+            if (installed) {
+                console.log(`✨ ${target} already installed`);
+                continue;
             }
-        } catch { }
 
-        if (installed) {
-            console.log(`✨ ${target} already installed`);
-            continue;
+            await rimraf(dest);
+
+            console.log(`✨ Installing ${url}#${commit} to ${target}`);
+            await shell.exec(`git clone --recurse-submodules ${url} ${dest}`, { silent: true, fatal: true, });
+
+            if (await shell.exec(`(cd ${dest} && git cat-file -t ${commit})`, { silent: true, fatal: false }).stdout.trim() != 'commit') {
+                console.log(`❌ ${target}, commit ${commit} not found.`);
+                process.exit(1);
+            }
+
+            await shell.exec(`(cd ${dest} && git checkout ${commit})`, { silent: true, fatal: true });
+            await shell.exec(`(cd ${dest} && git submodule update --init --recursive)`, { silent: true, fatal: true });
+        } else {
+            console.log(`✨ Installing ${url} to ${target}`);
+
+            if (type === "tgz") {
+                console.log(`curl -s ${url} | tar xvz -C ${dest}`);
+                await shell.exec(`mkdir -p ${dest}`, { silent: true, fatal: true });
+                await shell.exec(`curl -s ${url} | tar xvz -C ${dest}`, { silent: true, fatal: true })
+            }
         }
-
-        await rimraf(dest);
-
-        console.log(`✨ Installing ${url}#${commit} to ${target}`);
-        await shell.exec(`git clone --recurse-submodules ${url} ${dest}`, { silent: true, fatal: true, });
-
-        if (await shell.exec(`(cd ${dest} && git cat-file -t ${commit})`, { silent: true, fatal: false }).stdout.trim() != 'commit') {
-            console.log(`❌ ${target}, commit ${commit} not found.`);
-            process.exit(1);
-        }
-
-        await shell.exec(`(cd ${dest} && git checkout ${commit})`, { silent: true, fatal: true });
-        await shell.exec(`(cd ${dest} && git submodule update --init --recursive)`, { silent: true, fatal: true });
     };
 })();
