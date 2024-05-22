@@ -6,8 +6,13 @@ const libDir = `${__dirname}/../../lib`;
 
 module.exports = async function () {
     await Promise.all(Object.keys(libs).map(async (target) => {
-        const { commit } = libs[target];
+        const { commit, type } = libs[target];
 
+        // default type is git
+        if(type !== undefined) {
+            return;
+        }
+        
         const dest = `${libDir}/${target}`;
 
         try {
