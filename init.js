@@ -55,7 +55,6 @@ const destination = `${__dirname}/lib`;
             console.log(`✨ Installing ${url} to ${target}`);
 
             if (type === "tgz") {
-                console.log(`curl -s ${url} | tar xvz -C ${dest}`);
                 await shell.exec(`mkdir -p ${dest}`, { silent: true, fatal: true });
                 await shell.exec(`curl -s ${url} | tar xvz -C ${dest}`, { silent: true, fatal: true })
             }
