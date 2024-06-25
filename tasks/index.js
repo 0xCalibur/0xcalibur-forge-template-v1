@@ -13,7 +13,6 @@ task(
     .addParam("script", "The script to use for deployment")
     .addFlag("broadcast", "broadcast the transaction")
     .addFlag("verify", "verify the contract")
-    .addFlag("resume", "resume the script deployment")
     .addFlag("noConfirm", "do not ask for confirmation")
     .addOptionalVariadicPositionalParam("extra", "Extra arguments to pass to the script")
 
@@ -31,6 +30,7 @@ task("verify", "Verify a contract",
     require("./core/verify"))
     .addParam("deployment", "The name of the deployment (ex: MyContractName)")
     .addParam("artifact", "The artifact to verify (ex: src/periphery/MyContractName.sol:MyContractName)")
+    .addFlag("showStandardJsonInput", "Show the standard json input to manually verify on etherscan")
 
 task(
     "forge-deploy-multichain",
@@ -39,7 +39,6 @@ task(
     .addParam("script", "The script to use for deployment")
     .addFlag("broadcast", "broadcast the transaction")
     .addFlag("verify", "verify the contract")
-    .addFlag("resume", "resume the script deployment")
     .addFlag("noConfirm", "do not ask for confirmation")
     .addVariadicPositionalParam("networks", "The networks to deploy to")
 
