@@ -32,6 +32,9 @@ fs_permissions = [
     { access = "read", path = "./config" },
 ]
 
+[profile.evm_paris]
+evm_version = "paris"
+
 [profile.ci]
 verbosity = 4
 
