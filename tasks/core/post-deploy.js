@@ -57,9 +57,7 @@ module.exports = async function (taskArgs, hre) {
 
             let sourcifyFailed = false;
             if (!config.disableSourcify) {
-                try {
-                    await shell.exec(`${baseCmd} --verifier sourcify`, { silent: false, fatal: true });
-                } catch (e) {
+                if ((await shell.exec(`${baseCmd} --verifier sourcify`, { silent: false, fatal: false })).code != 0) {
                     sourcifyFailed = true;
                 }
             } else {
