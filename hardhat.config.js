@@ -98,11 +98,11 @@ module.exports = {
     },
     kava: {
       url: process.env.KAVA_RPC_URL,
-      api_key: undefined, // skip etherscan verification and use sourcify instead
       chainId: 2222,
+      lzChainId: 177,
       accounts,
-      forgeVerifyExtraArgs: "--verifier blockscout --verifier-url https://kavascan.com/api?",
-      forgeDeployExtraArgs: "--legacy --verifier blockscout --verifier-url https://kavascan.com/api?"
+      profile: "evm_paris",
+      forgeDeployExtraArgs: "--legacy"
     },
     linea: {
       url: process.env.LINEA_RPC_URL,
